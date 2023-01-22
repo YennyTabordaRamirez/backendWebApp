@@ -3,6 +3,8 @@ package com.clientes.apirest.clientes.apirest.service;
 import com.clientes.apirest.clientes.apirest.entity.ClienteEntity;
 import com.clientes.apirest.clientes.apirest.repository.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,12 @@ public class ClienteServiceImpl implements IClienteService{
     @Transactional(readOnly = true)
     public List<ClienteEntity> findAll() {
         return (List<ClienteEntity>) iClienteRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ClienteEntity> findAll(Pageable pageable) {
+        return iClienteRepository.findAll(pageable);
     }
 
     @Override
