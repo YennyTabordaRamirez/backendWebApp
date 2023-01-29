@@ -1,6 +1,7 @@
 package com.clientes.apirest.clientes.apirest.service;
 
 import com.clientes.apirest.clientes.apirest.entity.ClienteEntity;
+import com.clientes.apirest.clientes.apirest.entity.RegionEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,4 +15,5 @@ public interface IClienteService {
     public ClienteEntity save(ClienteEntity clienteEntity);
     //public ClienteEntity update(ClienteEntity clienteEntity);
     public void deleteById(Long id);
+    public List<RegionEntity> findAllRegiones();
 }

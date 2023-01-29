@@ -1,5 +1,6 @@
 package com.clientes.apirest.clientes.apirest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -38,6 +39,12 @@ public class ClienteEntity implements Serializable {
     private Date createAt;
 
     private String foto;
+
+    @NotNull(message = "La región no puede ser vacía")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+    private RegionEntity region;
 
     private static final long serialVersionUID = 1L;
 

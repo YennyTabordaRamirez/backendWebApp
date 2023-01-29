@@ -1,6 +1,7 @@
 package com.clientes.apirest.clientes.apirest.service;
 
 import com.clientes.apirest.clientes.apirest.entity.ClienteEntity;
+import com.clientes.apirest.clientes.apirest.entity.RegionEntity;
 import com.clientes.apirest.clientes.apirest.repository.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,5 +46,11 @@ public class ClienteServiceImpl implements IClienteService{
     @Transactional()
     public void deleteById(Long id) {
         iClienteRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional()
+    public List<RegionEntity> findAllRegiones() {
+        return iClienteRepository.findAllRegiones();
     }
 }

@@ -1,6 +1,7 @@
 package com.clientes.apirest.clientes.apirest.controller;
 
 import com.clientes.apirest.clientes.apirest.entity.ClienteEntity;
+import com.clientes.apirest.clientes.apirest.entity.RegionEntity;
 import com.clientes.apirest.clientes.apirest.service.IClienteService;
 import com.clientes.apirest.clientes.apirest.service.IUploadFileService;
 import org.slf4j.Logger;
@@ -134,6 +135,7 @@ public class ClienteController {
             clienteActual.setNombre(cliente.getNombre());
             clienteActual.setEmail(cliente.getEmail());
             clienteActual.setCreateAt(cliente.getCreateAt());
+            clienteActual.setRegion(cliente.getRegion());
 
             clienteUpdated = clienteService.save(clienteActual);
 
@@ -219,5 +221,10 @@ public class ClienteController {
         cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
 
         return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+    }
+
+    @GetMapping("/clientes/regiones")
+    public List<RegionEntity> listarRegiones() {
+        return clienteService.findAllRegiones();
     }
 }
