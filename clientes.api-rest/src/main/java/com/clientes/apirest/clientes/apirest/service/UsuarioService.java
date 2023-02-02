@@ -44,6 +44,6 @@ public class UsuarioService implements UserDetailsService {
                 .collect(Collectors.toList());
 
         return new User(usuarioEntity.getUserName(), usuarioEntity.getPassword(),
-                usuarioEntity.isEnabled(), true, true, true, authorities);
+                usuarioEntity.getEnabled(), true, true, true, authorities);
     }
 }

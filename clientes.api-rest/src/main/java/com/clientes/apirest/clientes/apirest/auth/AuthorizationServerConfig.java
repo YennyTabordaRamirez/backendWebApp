@@ -38,7 +38,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory().withClient("angularapp")
                 .secret(passwordEncoder.encode("12345"))
                 .scopes("read", "write")
-                .authorizedGrantTypes("password", "refresh_token")
+                .authorizedGrantTypes("password", "refresh_token", "client_credentials")
                 .accessTokenValiditySeconds(3600)
                 .refreshTokenValiditySeconds(3600);
     }
@@ -51,13 +51,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Bean // este es opcional, ya que por debajo hace lo mismo en el AuthorizationServerEndpointsConfigurer
-    private TokenStore tokenStore() {
+    public JwtTokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey(JwtConfig.LLAVE_SERCRETA);
         return jwtAccessTokenConverter;
     }
 
