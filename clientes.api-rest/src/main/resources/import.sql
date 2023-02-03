@@ -7,7 +7,7 @@ INSERT INTO regiones (nombre) VALUES('Africa');
 INSERT INTO regiones (nombre) VALUES('Oceania');
 INSERT INTO regiones (nombre) VALUES('Antartida');
 
-INSERT INTO clientes (region_id, nombre, apellido, email, fecha_creacion) VALUES( 1,'Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01');
+INSERT INTO clientes (region_id, nombre, apellido, email, fecha_creacion) VALUES( 1,'Andres', 'Guzman', 'profesor@bolsadeideas.com', '2018-01-01');
 INSERT INTO clientes (region_id, nombre, apellido, email, fecha_creacion) VALUES( 2,'Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02');
 INSERT INTO clientes (region_id, nombre, apellido, email, fecha_creacion) VALUES( 3,'Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2018-01-03');
 INSERT INTO clientes (region_id, nombre, apellido, email, fecha_creacion) VALUES( 4,'Rasmus', 'Lerdorf', 'rasmus.lerdorf@gmail.com', '2018-01-04');
@@ -17,12 +17,16 @@ INSERT INTO clientes (region_id, nombre, apellido, email, fecha_creacion) VALUES
 INSERT INTO clientes (region_id, nombre, apellido, email, fecha_creacion) VALUES( 8,'John', 'Vlissides', 'john.vlissides@gmail.com', '2018-02-28');
 
 --Creando insert de usuarios con sus roles
-INSERT INTO `usuarios` (userName, password, enabled) VALUES('andres', '$2a$10$zRY6uIEd7seEERtHKo5cCeOF6Egotr537rI.Sc.ZP/fp.oVy7Mtv2', 1);
-INSERT INTO `usuarios` (userName, password, enabled) VALUES('admin', '$2a$10$JnFTcrUB2K20mA2V3po9EOJNeVfFff.XMleDrLqc.hWYf8vms9bsW', 1);
+INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email)
+VALUES('andres', '$2a$10$zRY6uIEd7seEERtHKo5cCeOF6Egotr537rI.Sc.ZP/fp.oVy7Mtv2', 1, 'Andres', 'Guzman', 'profesor@bolsadeideas.com');
+
+INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email)
+VALUES('admin', '$2a$10$JnFTcrUB2K20mA2V3po9EOJNeVfFff.XMleDrLqc.hWYf8vms9bsW', 1, 'John', 'Doe', 'john.doe@gmail.com');
+
 
 INSERT INTO `roles` (nombre) VALUES('ROLE_USER');
 INSERT INTO `roles` (nombre) VALUES('ROLE_ADMIN');
 
-INSERT INTO `usuarios_roles` (usuario_id, rol_id) VALUES(1,1);
-INSERT INTO `usuarios_roles` (usuario_id, rol_id) VALUES(2,2);
-INSERT INTO `usuarios_roles` (usuario_id, rol_id) VALUES(2,1);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES(1,1);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES(2,2);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES(2,1);

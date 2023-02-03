@@ -2,6 +2,7 @@ package com.clientes.apirest.clientes.apirest.service;
 
 import com.clientes.apirest.clientes.apirest.entity.UsuarioEntity;
 import com.clientes.apirest.clientes.apirest.repository.IUsuarioRepository;
+import com.clientes.apirest.clientes.apirest.service.IUsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioService implements  IUsuarioService, UserDetailsService {
 
     private Logger logger = LoggerFactory.getLogger(UsuarioService.class);
 
@@ -30,7 +31,7 @@ public class UsuarioService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UsuarioEntity usuarioEntity = iUsuarioRepository.findByUserName(username);
+        UsuarioEntity usuarioEntity = iUsuarioRepository.findByUsername(username);
 
         if(usuarioEntity == null){
             logger.error("Error en el login: o existe el usuario: " + username + " en el sistema");
@@ -43,7 +44,13 @@ public class UsuarioService implements UserDetailsService {
                 .peek(authority -> logger.info("Rol: "+ authority.getAuthority()))
                 .collect(Collectors.toList());
 
-        return new User(usuarioEntity.getUserName(), usuarioEntity.getPassword(),
+        return new User(usuarioEntity.getUsername(), usuarioEntity.getPassword(),
                 usuarioEntity.getEnabled(), true, true, true, authorities);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UsuarioEntity findByUsername(String username) {
+        return iUsuarioRepository.findByUsername(username);
     }
 }

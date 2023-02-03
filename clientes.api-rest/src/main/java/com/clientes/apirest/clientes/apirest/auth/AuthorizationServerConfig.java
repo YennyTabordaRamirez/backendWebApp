@@ -11,9 +11,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
@@ -25,6 +28,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     @Qualifier("authenticationManager")
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private InfoAdicionalToken infoAdicionalToken;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -39,15 +45,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder.encode("12345"))
                 .scopes("read", "write")
                 .authorizedGrantTypes("password", "refresh_token", "client_credentials")
-                .accessTokenValiditySeconds(3600)
-                .refreshTokenValiditySeconds(3600);
+                .accessTokenValiditySeconds(4000)
+                .refreshTokenValiditySeconds(4000);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(infoAdicionalToken, accessTokenConverter()));
+
        endpoints.authenticationManager(authenticationManager)
                .tokenStore(tokenStore())
-               .accessTokenConverter(accessTokenConverter());
+               .accessTokenConverter(accessTokenConverter())
+               .tokenEnhancer(tokenEnhancerChain);
     }
 
     @Bean // este es opcional, ya que por debajo hace lo mismo en el AuthorizationServerEndpointsConfigurer
@@ -58,9 +70,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey(JwtConfig.LLAVE_SERCRETA);
+
+        //jwtAccessTokenConverter.setSigningKey(JwtConfig.LLAVE_SERCRETA);
+        jwtAccessTokenConverter.setSigningKey(JwtConfig.RSA_PRIVADA);
+        jwtAccessTokenConverter.setVerifierKey(JwtConfig.RSA_PUBLICA);
         return jwtAccessTokenConverter;
     }
-
-
 }
